@@ -4,11 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>Latest daily CO2</title>
-    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
 </head>
-<body>
-    <h1>Latest daily CO<sub>2</sub></h1>
+<body id=".container">
+    <h2>Latest daily CO<sub>2</sub>:</h2>
     <div id="data"></div>
     
     <script>
@@ -18,7 +17,8 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const data = await response.text();
+//                const data = await response.text();
+                const data = "What.Is.Happening?(TM)";
                 document.getElementById('data').textContent = data;
             } catch (error) {
                 console.error('Error:', error);

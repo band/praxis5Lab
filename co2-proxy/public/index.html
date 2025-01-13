@@ -1,0 +1,31 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Latest daily CO2</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+</head>
+<body>
+    <h1>Latest daily CO<sub>2</sub></h1>
+    <div id="data"></div>
+    
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/api/co2data');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.text();
+                document.getElementById('data').textContent = data;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('data').textContent = 'Error loading CO2 data';
+            }
+        }
+        fetchData();
+    </script>
+</body>
+</html>

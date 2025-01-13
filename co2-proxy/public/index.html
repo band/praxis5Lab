@@ -9,13 +9,16 @@
       .single-line {
 	  display: flex;
 	  align-items: center;
-	  font-family: Tahoma, sans-serif; }
+	  font-family: Verdana, sans-serif; }
       .single-line .label {
 	  font-weight: bold;
-	  font-size: 1.5em;
+	  font-size: 2.5em;
 	  margin-right: 10px; }
+      .single-line .units {
+	  font-size: 2.0em;
+	  margin-left: 10px; }
       .single-line #co2data {
-	  font-size: 1.5em;
+	  font-size: 2.5em;
 	  color: #007BFF; }
     </style>
   </head>
@@ -24,6 +27,7 @@
     <div class="single-line">
       <span class="label">Latest NOAA Maunaloa CO<sub>2</sub> value:</span>
       <div id="co2data"></div>
+      <span class="units">ppm.</span>
     </div>
     
     <script>

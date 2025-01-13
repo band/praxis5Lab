@@ -1,32 +1,49 @@
 <!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
-    <title>Latest daily CO2</title>
+    <title>Latest NOAA Maunaloa CO2 value</title>
     <link rel="stylesheet" href="css/skeleton.css">
-</head>
-<body id=".container">
-    <h2>Latest daily CO<sub>2</sub>:</h2>
-    <div id="data"></div>
+    <style>
+      .single-line {
+	  display: flex;
+	  align-items: center;
+	  font-family: Tahoma, sans-serif; }
+      .single-line .label {
+	  font-weight: bold;
+	  font-size: 1.5em;
+	  margin-right: 10px; }
+      .single-line #co2data {
+	  font-size: 1.5em;
+	  color: #007BFF; }
+    </style>
+  </head>
+  <body id=".container">
+    <img src="img/rodantheGrey200801.jpg">
+    <div class="single-line">
+      <span class="label">Latest NOAA Maunaloa CO<sub>2</sub> value:</span>
+      <div id="co2data"></div>
+    </div>
     
     <script>
-        async function fetchData() {
-            try {
-                const response = await fetch('http://localhost:3000/api/co2data');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-		const lines = text.split('\n');
-		const data = lines[lines.length -2]
-                document.getElementById('data').textContent = data;
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('data').textContent = 'Error loading CO2 data';
-            }
-        }
-        fetchData();
+      async function fetchData() {
+          try {
+              const response = await fetch('http://localhost:3000/api/co2data');
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const text = await response.text();
+	      const lines = text.split('\n');
+	      const dataline = lines[lines.length -2]
+	      const [year, month, day, decimaldate, co2data] = dataline.trim().split(/\s+/);
+              document.getElementById('co2data').textContent = co2data;
+          } catch (error) {
+              console.error('Error:', error);
+              document.getElementById('data').textContent = 'Error loading CO2 data';
+          }
+      }
+      fetchData();
     </script>
-</body>
+  </body>
 </html>

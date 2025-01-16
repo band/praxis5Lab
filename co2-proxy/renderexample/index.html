@@ -53,7 +53,7 @@
                 console.log('Data fetched successfully');
                 console.log('First 500 characters:', data.substring(0, 500));
 //                console.log('the whole magilla:', data)
-		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-40))
+		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\n"$/,''))
 
                 statusDiv.className = 'success';
                 statusDiv.textContent = 'Data fetched successfully! Check the console for details.';

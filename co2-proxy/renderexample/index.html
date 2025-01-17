@@ -30,6 +30,8 @@
     <h1>CO2 Data Fetch Test</h1>
     <button onclick="fetchData()">Fetch Data</button>
     <div id="status"></div>
+    </br>
+    <div id="co2value"></div>
 
     <script>
         // Replace this URL with your actual Render.com proxy URL
@@ -41,6 +43,8 @@
             statusDiv.className = '';
             statusDiv.textContent = 'Fetching data...';
 
+	    const co2valueDiv = document.getElementById('co2value')
+	    
             try {
                 const response = await fetch(PROXY_URL);
                 if (!response.ok) {
@@ -51,10 +55,15 @@
                 
                 // Log data to console instead of displaying
                 console.log('Data fetched successfully');
+//		console.log(typeof data)
                 console.log('First 500 characters:', data.substring(0, 500));
 //                console.log('the whole magilla:', data)
-		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\n"$/,''))
+		console.log('last co2 data line:', data.slice(-36))
+		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
 
+		co2valueDiv.classname = ''
+		co2valueDiv.textContent = `Latest NOAA Mauna Loa co2 value: ${data.slice(-36).replace(/\\n\"$/,'')} `
+		
                 statusDiv.className = 'success';
                 statusDiv.textContent = 'Data fetched successfully! Check the console for details.';
             } catch (error) {

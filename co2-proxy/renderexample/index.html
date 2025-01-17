@@ -44,7 +44,7 @@
             statusDiv.textContent = 'Fetching data...';
 
 	    const co2valueDiv = document.getElementById('co2value')
-	    
+
             try {
                 const response = await fetch(PROXY_URL);
                 if (!response.ok) {
@@ -52,18 +52,15 @@
                 }
                 const data = await response.text();
 //		const lines = data.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-                
                 // Log data to console instead of displaying
                 console.log('Data fetched successfully');
-//		console.log(typeof data)
-                console.log('First 500 characters:', data.substring(0, 500));
-//                console.log('the whole magilla:', data)
+//                console.log('First 500 characters:', data.substring(0, 500));
 		console.log('last co2 data line:', data.slice(-36))
 		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
 
 		co2valueDiv.classname = ''
 		co2valueDiv.textContent = `Latest NOAA Mauna Loa co2 value: ${data.slice(-36).replace(/\\n\"$/,'')} `
-		
+
                 statusDiv.className = 'success';
                 statusDiv.textContent = 'Data fetched successfully! Check the console for details.';
             } catch (error) {

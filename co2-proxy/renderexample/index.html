@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CO2 Data Fetch Test</title>
     <style>
-        body {
-            font-family: sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        #status {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+      body {
+          font-family: sans-serif;
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 0 20px;
+      }
+      #status {
+          padding: 10px;
+          margin: 10px 0;
+          border-radius: 4px;
+      }
+      .success {
+          background-color: #d4edda;
+          color: #155724;
+      }
+      .error {
+          background-color: #f8d7da;
+          color: #721c24;
+      }
+      #co2value {
+	  padding: 20px;
+	  font-family: Tahoma, Arial, sans-serif;
+	  font-size: 1.5em;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>CO2 Data Fetch Test</h1>
     <button onclick="fetchData()">Fetch Data</button>
     <div id="status"></div>
@@ -34,41 +39,42 @@
     <div id="co2value"></div>
 
     <script>
-        // Replace this URL with your actual Render.com proxy URL
-       const PROXY_URL = 'https://co2-proxy.onrender.com/api/co2data';
-//       const PROXY_URL = 'http://localhost:3000/api/co2data';      
-        
-        async function fetchData() {
-            const statusDiv = document.getElementById('status');
-            statusDiv.className = '';
-            statusDiv.textContent = 'Fetching data...';
+      // Replace this URL with your actual Render.com proxy URL
+      const PROXY_URL = 'https://co2-proxy.onrender.com/api/co2data';
+      //       const PROXY_URL = 'http://localhost:3000/api/co2data';
 
-	    const co2valueDiv = document.getElementById('co2value')
+      async function fetchData() {
+          const statusDiv = document.getElementById('status');
+          statusDiv.className = '';
+          statusDiv.textContent = 'Fetching data...';
 
-            try {
-                const response = await fetch(PROXY_URL);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.text();
-//		const lines = data.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-                // Log data to console instead of displaying
-                console.log('Data fetched successfully');
-//                console.log('First 500 characters:', data.substring(0, 500));
-		console.log('last co2 data line:', data.slice(-36))
-		console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
+	  const co2valueDiv = document.getElementById('co2value')
 
-		co2valueDiv.classname = ''
-		co2valueDiv.textContent = `Latest NOAA Mauna Loa co2 value: ${data.slice(-36).replace(/\\n\"$/,'')} `
+          try {
+              const response = await fetch(PROXY_URL);
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.text();
+              // Log data to console instead of displaying
+              console.log('Data fetched successfully');
+              console.log('First 311 characters:', data.substring(0, 310));
+	      const lines = data.split(/\\n/)
+	      const lastDataLine = lines[lines.length -2].trim().split(/\s+/)
+	      console.log('last co2 data line:', lastDataLine)
+	      console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
 
-                statusDiv.className = 'success';
-                statusDiv.textContent = 'Data fetched successfully! Check the console for details.';
-            } catch (error) {
-                console.error('Error:', error);
-                statusDiv.className = 'error';
-                statusDiv.textContent = `Error fetching data: ${error.message}`;
-            }
-        }
+	      co2valueDiv.classname = ''
+	      co2valueDiv.textContent = `${lastDataLine[0]}-${lastDataLine[1].padStart(2,'0')}-${lastDataLine[2].padStart(2,'0')} NOAA Mauna Loa CO2 value: ${lastDataLine[4]} ppm. `
+
+              statusDiv.className = 'success';
+              statusDiv.textContent = 'Data fetched successfully! Check the console for details.';
+          } catch (error) {
+              console.error('Error:', error);
+              statusDiv.className = 'error';
+              statusDiv.textContent = `Error fetching data: ${error.message}`;
+          }
+      }
     </script>
-</body>
+  </body>
 </html>

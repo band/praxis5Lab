@@ -62,7 +62,7 @@
 	      const lines = data.split(/\\n/)
 	      const lastDataLine = lines[lines.length -2].trim().split(/\s+/)
 	      console.log('last co2 data line:', lastDataLine)
-	      console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
+//	      console.log('Latest NOAA Mauna Loa co2 value: ', data.slice(-36).replace(/\\n\"$/,''))
 
 	      co2valueDiv.classname = ''
 	      co2valueDiv.textContent = `${lastDataLine[0]}-${lastDataLine[1].padStart(2,'0')}-${lastDataLine[2].padStart(2,'0')} NOAA Mauna Loa CO2 value: ${lastDataLine[4]} ppm. `
